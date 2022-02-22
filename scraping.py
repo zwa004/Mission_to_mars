@@ -1,12 +1,34 @@
-#!/usr/bin/env python
-# coding: utf-8
-
 # Import Splinter and BeautifulSoup
 from splinter import Browser
 from bs4 import BeautifulSoup as soup
 from webdriver_manager.chrome import ChromeDriverManager
 import pandas as pd
 import datetime as dt
+
+def hemisphere_scrape():
+    executable_path = {'executable_path': ChromeDriverManager().install()}
+    browser = Browser('chrome', **executable_path, headless=False)
+    url = 'https://marshemispheres.com/'
+
+    browser.visit(url)
+    # 2. Create a list to hold the images and titles.
+    hemisphere_image_urls = {}
+    
+    # 3. Write code to retrieve the image urls and titles for each hemisphere. #img.thumb + click the url
+  
+    html = browser.html
+    img_soup = soup(html, 'html.parser')
+    img_soup
+    for x in img_soup.find_all('img', class_='thumb'):
+        img_soup = browser.find_by_tag('img.thumb')[0]
+        img_soup.click()
+        hemisphere_url = img_soup.find("div", class_="downloads").find("li").find("a")['href']
+        browser.back()
+        mars_url = x.get('src')
+        hemisphere_image_urls[x.get('alt')] = f'https://marshemispheres.com/{mars_url}'
+
+    # 4. Print the list that holds the dictionary of each image url and title.
+    return hemisphere_image_urls
 
 def scrape_all():
     # Initiate headless driver for deployment
@@ -21,8 +43,9 @@ def scrape_all():
       "news_paragraph": news_paragraph,
       "featured_image": featured_image(browser),
       "facts": mars_facts(),
-      "last_modified": dt.datetime.now()
-}
+      "hemisphere_images": hemisphere_scrape(),
+      "last_modified": dt.datetime.now()}
+    
     browser.quit()
     return data
 
@@ -105,6 +128,8 @@ if __name__ == "__main__":
     
     # If running as script, print scraped data
     print(scrape_all())
+
+
 
 
 
