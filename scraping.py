@@ -11,25 +11,41 @@ def hemisphere_scrape():
     url = 'https://marshemispheres.com/'
 
     browser.visit(url)
-    # 2. Create a list to hold the images and titles.
-    hemisphere_image_urls = {}
-    
-    # 3. Write code to retrieve the image urls and titles for each hemisphere. #img.thumb + click the url
-  
+    # 1. Use browser to visit the URL 
+
+# 2. Create a list to hold the images and titles.
+    hemisphere_image_urls = []
+
+# 3. Write code to retrieve the image urls and titles for each hemisphere.
     html = browser.html
     img_soup = soup(html, 'html.parser')
     img_soup
-    for x in img_soup.find_all('img', class_='thumb'):
-        img_soup = browser.find_by_tag('img.thumb')[0]
-        img_soup.click()
-        hemisphere_url = img_soup.find("div", class_="downloads").find("li").find("a")['href']
+    # Link of each hemisphere page
+    browser_links = browser.find_by_css('a.product-item img')
+    # Loop through each image based on the number of product-item's there are ie range len
+    for img in range(len(browser_links)):
+        # Dict for img and titles
+        img_and_titles = {}
+        
+        # Dynamic clicking for each index in the list of browser links
+        browser.find_by_css('a.product-item img')[img].click()    
+        
+        # Add url to dict 
+        img_and_titles['url'] = browser.find_by_text('Sample')['href']
+        
+        # Add title 
+        img_and_titles['title'] = browser.find_by_css('h2.title').text
+        
+        
+        #print(img_and_titles)
+        hemisphere_image_urls.append(img_and_titles)
         browser.back()
-        mars_url = x.get('src')
-        hemisphere_image_urls[x.get('alt')] = f'https://marshemispheres.com/{mars_url}'
-
+        
     # 4. Print the list that holds the dictionary of each image url and title.
+    print(hemisphere_image_urls)
+    # 5. Quit the browser
+    browser.quit()
     return hemisphere_image_urls
-
 def scrape_all():
     # Initiate headless driver for deployment
     executable_path = {'executable_path': ChromeDriverManager().install()}
