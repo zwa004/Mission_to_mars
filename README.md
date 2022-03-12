@@ -1,1 +1,2 @@
 # Mission_to_mars
+## In this module we were tasked to build an application to pull images and information about the hemispheres of Mars. The Splinter library was used to browse the NASA webpage for the data. I used BeautifulSoup to access specific elements of HTML of the webpages. I then used Pandas to organize text and images into tables while I connected to a mongoDB database and stored them. 
