@@ -11,12 +11,12 @@
     />
   </head>
   <body>
-    <div class="container">
+    <div class="container-fluid">
       <!-- Add Jumbotron to Header -->
       <div class="jumbotron text-center">
         <h1>Mission to Mars</h1>
         <!-- Add a button to activate scraping script -->
-        <p><a class="btn btn-primary btn-lg" href="/scrape" role="button">Scrape New Data</a></p>
+        <p><a class="btn btn-primary btn-lg btn-block" href="/scrape" role="button">Scrape New Data</a></p>
       </div>
       <!-- Add section for Mars News -->
       <div class="row" id="mars-news">
@@ -47,19 +47,19 @@
             {{ mars.facts | safe }}
           </div>
         </div>
+      <div>
+        <!--Hemispheres-->
+        <div class="row" id="mars-hemispheres">
+          <h3>Mars Hemispheres</h3>
+        </div>
         <div>
-          <!--Hemispheres-->
-          <div class="row" id="mars-hemispheres">
-            <h4>Mars Hemispheres</h4>
-          </div>
-          <div>
-            <!--Use for loop to grab url and title from MDB-->
-            {% for hemisphere in mars.hemisphere_images %}
-            <img src = {{hemisphere.url}}>
-            <h4> {{hemisphere.title}}
-            </h4>
-            {% endfor %}
-          </div>
+          <!--Use for loop to grab url and title from MDB-->
+          {% for hemisphere in mars.hemisphere_images %}
+          <img src = {{hemisphere.url}} class="img-responsive" alt="Responsive image">
+          <h4> {{hemisphere.title}}
+          </h4>
+          {% endfor %}
+        </div>
       </div>
     </div>
   </body>
